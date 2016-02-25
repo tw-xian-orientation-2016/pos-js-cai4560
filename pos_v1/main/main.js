@@ -1,4 +1,12 @@
 //TODO: Please write code in this file.
+function printReceipt(inputs)
+{
+  var barcodelist = loadAllBarcodes(inputs);
+  var cartitem = marchBarcodeList(barcodelist);
+  var receiptitem = calculatePromotion(cartitem );
+  console.log(getReceipt(receiptitem));
+}
+
 function loadAllBarcodes(inputs) {
   var result = [];
   for(var i=0; i < inputs.length; i++)
