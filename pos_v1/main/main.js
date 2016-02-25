@@ -55,3 +55,29 @@ function copyData(barcodeinfo,iteminfo)
               },
           number:barcodeinfo.number};
 }
+
+function calculatePromotion(inputs) {
+  var result = [];
+  var promotions = loadPromotions();
+  var flag;
+  for(var i=0; i<inputs.length; i++)
+  {
+    flag = 0;
+    for(var j=0; j<promotions.length;j++)
+      for(var k=0; k<promotions[j].barcodes.length; k++)
+        if(inputs[i].item.barcode === promotions[j].barcodes[k])
+        {
+          result.push(calculateTotalPrice(inputs[i]));
+          flag = 1;
+          break;
+        }
+    if(!flag)
+      result.push({cartitem:inputs[i],total:inputs[i].item.price*inputs[i].number,save:0.00})
+  }
+  return result;
+}
+
+function calculateTotalPrice(input) {
+  var promote = parseInt(input.number/3);
+  return {cartitem:input,total:input.item.price*(input.number-promote),save:input.item.price*promote};
+}

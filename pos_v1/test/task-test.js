@@ -60,3 +60,34 @@ describe('marchBarcodeList', function() {
     expect(result).toEqual(expectresult);
   });
 });
+
+describe('calculatePromotion', function() {
+  var inputs = [
+                  {item: {
+                  barcode: 'ITEM000001',
+                  name: '雪碧',
+                  unit: '瓶',
+                  price: 3.00
+                  },number:5},
+                  {item: {
+                    barcode: 'ITEM000003',
+                    name: '荔枝',
+                    unit: '斤',
+                    price: 15.00
+                    },number:2},
+                  {item:{
+                    barcode: 'ITEM000005',
+                    name: '方便面',
+                    unit: '袋',
+                    price: 4.50
+                    },number:3}];
+
+  it('Should return correct cartitem', function() {
+
+    var result = calculatePromotion(inputs);
+    var expectresult =  [{cartitem:inputs[0],total:12.00,save:3.00},
+                        {cartitem:inputs[1],total:30.00,save:0.00},
+                        {cartitem:inputs[2],total:9.00,save:4.50}];
+    expect(result).toEqual(expectresult);
+  });
+});
