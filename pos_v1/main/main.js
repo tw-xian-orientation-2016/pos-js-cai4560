@@ -33,3 +33,25 @@ function calculateNumber(inputs,i,location)
   count = parseInt(inputs[i].substr(location+1,inputs.length));
   return {barcode:tempbarcode, number:count};
 }
+
+function marchBarcodeList(inputs) {
+  var result = [];
+  var item = loadAllItems();
+  for(var i=0; i<inputs.length; i++)
+    for(var j=0; j<item.length; j++)
+    {
+      if(inputs[i].barcode === item[j].barcode)
+        result.push(copyData(inputs[i],item[j]))
+    }
+  return result;
+}
+
+function copyData(barcodeinfo,iteminfo)
+{
+  return {item:{barcode: iteminfo.barcode,
+                name: iteminfo.name,
+                unit: iteminfo.unit,
+                price: iteminfo.price
+              },
+          number:barcodeinfo.number};
+}
