@@ -10,12 +10,12 @@ function printReceipt(inputs) {
 function loadAllBarcodes(tags) {
   var barcodeList = [];
   //tags.sort();
-  for(var start = 0; start < tags.length; start++) {
+  for(var start = 0; start < tags.length; ) {
       var dividedBarcode = tags[start].split('-');
 			var barcode = dividedBarcode[0];
 			var end = searchEnd(tags, start);
 			var number = parseFloat(dividedBarcode[1] || end - start);
-			start = end - 1;
+			start = end ;
 			barcodeList.push({ barcode: barcode, number: number });
     }
   return barcodeList;
@@ -53,43 +53,35 @@ function copyItemData(barcodeinfo, iteminfo)
 }
 
 /*     Task3     */
-function calculatePromotion(inputs) {
-  var result = [];
+function calculatePromotion(cartItem) {
+  var receiptItem = [];
   var promotions = loadPromotions();
-  for(var i=0; i<inputs.length; i++)
-  {
-    var flag = 0;
-    for(var j=0; j<promotions.length;j++)
-      for(var k=0; k<promotions[j].barcodes.length; k++)
-        if(inputs[i].item.barcode === promotions[j].barcodes[k])
-        {
-          result.push(calculateTotalPrice(inputs[i]));
-          flag = 1;break;
-        }
-    if(!flag)
-      result.push({cartitem:inputs[i],
-                   total:inputs[i].item.price*inputs[i].number,
-                   save:0.00})
+  for(var i = 0; i < cartItem.length; i++) {
+    var promoteNumber = isPromote(cartItem[i], promotions) || 0;
+    receiptItem.push({ cartItem: cartItem[i],
+                       total: cartItem[i].item.price * (cartItem[i].number - promoteNumber),
+                       save:  cartItem[i].item.price * promoteNumber });
   }
-  return result;
+  return receiptItem;
 }
 
-function calculateTotalPrice(input) {
-  var promote = parseInt(input.number/3);
-  return {cartitem:input,
-          total:input.item.price*(input.number-promote),
-          save:input.item.price*promote};
+function isPromote(cartItem, promotions) {
+	for(var i = 0; i < promotions.length; i++)
+		for(var j = 0; j < promotions[i].barcodes.length; j++)
+			if(cartItem.item.barcode === promotions[i].barcodes[j]) {
+				promoteNumber = parseInt(cartItem.number / 3);
+				return promoteNumber;
+			}
 }
-
 function getReceipt(inputs) {
   var receipt = "***<没钱赚商店>收据***\n";
   var totalprice = 0, totalsave = 0;
   for(var i=0; i<inputs.length; i++)
   {
-    receipt += "名称：" + inputs[i].cartitem.item.name
-            + "，数量：" + inputs[i].cartitem.number
-            + inputs[i].cartitem.item.unit + "，单价："
-            + inputs[i].cartitem.item.price.toFixed(2) + "(元)，小计："
+    receipt += "名称：" + inputs[i].cartItem.item.name
+            + "，数量：" + inputs[i].cartItem.number
+            + inputs[i].cartItem.item.unit + "，单价："
+            + inputs[i].cartItem.item.price.toFixed(2) + "(元)，小计："
             + inputs[i].total.toFixed(2) + "(元)\n";
     totalprice += inputs[i].total;
     totalsave  += inputs[i].save;

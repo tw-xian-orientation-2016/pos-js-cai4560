@@ -34,7 +34,7 @@ describe('marchBarcodeList', function() {
                 { barcode: "ITEM000003", number:2 },
                 { barcode: "ITEM000005", number:3 }];
 
-  it('Should return correct cartitem', function() {
+  it('Should return correct cartItem', function() {
 
     var result = marchBarcodeList(inputs);
     var expectResult = [{ item: { barcode: 'ITEM000001',
@@ -60,48 +60,50 @@ describe('marchBarcodeList', function() {
 });
 
 describe('calculatePromotion', function() {
-  var inputs = [{item: {barcode: 'ITEM000001',
-                              name: '雪碧',
-                              unit: '瓶',
-                              price: 3.00},
-                      number:5},
-                      {item: {barcode: 'ITEM000003',
-                              name: '荔枝',
-                              unit: '斤',
-                              price: 15.00},
-                      number:2},
-                      {item:{barcode: 'ITEM000005',
-                             name: '方便面',
-                             unit: '袋',
-                             price: 4.50},
-                      number:3}];
+  var inputs = [{ item: { barcode: 'ITEM000001',
+													name: '雪碧',
+													unit: '瓶',
+													price: 3.00 },
+									number: 5
+								},
+								{ item: { barcode: 'ITEM000003',
+													name: '荔枝',
+													unit: '斤',
+													price: 15.00 },
+									number: 2
+								},
+								{ item: { barcode: 'ITEM000005',
+													name: '方便面',
+													unit: '袋',
+													price: 4.50 },
+									number: 3
+								}];
 
-  it('Should return correct cartitem', function() {
-
+  it('Should return correct receiptItem', function() {
     var result = calculatePromotion(inputs);
-    var expectResult =  [{cartitem:inputs[0],total:12.00,save:3.00},
-                         {cartitem:inputs[1],total:30.00,save:0.00},
-                         {cartitem:inputs[2],total:9.00,save:4.50}];
+    var expectResult =  [{ cartItem: inputs[0], total:12.00, save:3.00 },
+                         { cartItem: inputs[1], total:30.00, save:0.00 },
+                         { cartItem: inputs[2], total:9.00,  save:4.50 }];
     expect(result).toEqual(expectResult);
   });
 });
 
 describe('getReceipt', function() {
-  var inputs = [{cartitem:{item: {barcode: 'ITEM000001',
+  var inputs = [{cartItem:{item: {barcode: 'ITEM000001',
                                   name: '雪碧',
                                   unit: '瓶',
                                   price: 3.00},
                           number:5},
                  total:12.00,
                  save:3.00},
-                {cartitem:{item: {barcode: 'ITEM000003',
+                {cartItem:{item: {barcode: 'ITEM000003',
                                   name: '荔枝',
                                   unit: '斤',
                                   price: 15.00},
                           number:2},
                  total:30.00,
                  save:0.00},
-                {cartitem:{item: {barcode: 'ITEM000005',
+                {cartItem:{item: {barcode: 'ITEM000005',
                                   name: '方便面',
                                   unit: '袋',
                                   price: 4.50},
@@ -109,7 +111,7 @@ describe('getReceipt', function() {
                  total:9.00,
                  save:4.50}];
 
-  it('Should return correct itemreceipt', function() {
+  it('Should return correct receipt', function() {
 
     spyOn(console, 'log');
     getReceipt(inputs)
