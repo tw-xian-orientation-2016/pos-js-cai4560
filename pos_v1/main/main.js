@@ -1,45 +1,34 @@
 //TODO: Please write code in this file.
-function printReceipt(inputs)
-{
-  var barcodelist = loadAllBarcodes(inputs);
-  var cartitem = marchBarcodeList(barcodelist);
-  var receiptitem = calculatePromotion(cartitem );
-  console.log(getReceipt(receiptitem));
+function printReceipt(inputs) {
+  var barcodeList = loadAllBarcodes(inputs);
+  var cartItem = marchBarcodeList(barcodeList);
+  var receiptItem = calculatePromotion(cartItem);
+  console.log(getReceipt(receiptItem));
 }
 
-function loadAllBarcodes(inputs) {
-  var result = [];
-  for(var i=0; i < inputs.length; i++)
-    {
-      var location = inputs[i].indexOf('-');
-      if(location == -1)
-      {
-        var flag = staticsNumber(inputs,i);
-        result.push({barcode:inputs[i], number:flag-i});
-        i=flag-1;
-      }
-      else
-        result.push(calculateNumber(inputs,i,location));
+/*     Task1     */
+function loadAllBarcodes(tags) {
+  var barcodeList = [];
+  //tags.sort();
+  for(var start = 0; start < tags.length; start++) {
+      var dividedBarcode = tags[start].split('-');
+			var barcode = dividedBarcode[0];
+			var end = searchEnd(tags, start);
+			var number = parseFloat(dividedBarcode[1] || end - start);
+			start = end - 1;
+			barcodeList.push({ barcode: barcode, number: number });
     }
-  return result;
+  return barcodeList;
 }
 
-function staticsNumber(inputs, i) {
-  for(var j=i; j<inputs.length; j++)
-  {
-    if(inputs[j] === inputs[i])
+function searchEnd(tags, start) {
+  for(var end = start; end < tags.length; end++) {
+    if(tags[end] === tags[start])
       continue;
     else
       break;
   }
-  return j;
-}
-
-function calculateNumber(inputs,i,location)
-{
-  tempbarcode = inputs[i].substr(0,location);
-  count = parseInt(inputs[i].substr(location+1,inputs.length));
-  return {barcode:tempbarcode, number:count};
+  return end;
 }
 
 function marchBarcodeList(inputs) {
