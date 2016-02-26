@@ -1,6 +1,6 @@
 //TODO: Please write code in this file.
-function printReceipt(inputs) {
-  var barcodeList = loadAllBarcodes(inputs);
+function printReceipt(receiptItem) {
+  var barcodeList = loadAllBarcodes(receiptItem);
   var cartItem = marchBarcodeList(barcodeList);
   var receiptItem = calculatePromotion(cartItem);
   console.log(getReceipt(receiptItem));
@@ -73,22 +73,22 @@ function isPromote(cartItem, promotions) {
 				return promoteNumber;
 			}
 }
-function getReceipt(inputs) {
+/*     Task4     */
+function getReceipt(receiptItem) {
   var receipt = "***<没钱赚商店>收据***\n";
-  var totalprice = 0, totalsave = 0;
-  for(var i=0; i<inputs.length; i++)
-  {
-    receipt += "名称：" + inputs[i].cartItem.item.name
-            + "，数量：" + inputs[i].cartItem.number
-            + inputs[i].cartItem.item.unit + "，单价："
-            + inputs[i].cartItem.item.price.toFixed(2) + "(元)，小计："
-            + inputs[i].total.toFixed(2) + "(元)\n";
-    totalprice += inputs[i].total;
-    totalsave  += inputs[i].save;
-  }
+  var totalPrice = 0, totalSave = 0;
+  for(var i = 0; i < receiptItem.length; i++){
+    receipt += "名称：" + receiptItem[i].cartItem.item.name
+            + "，数量：" + receiptItem[i].cartItem.number
+            + receiptItem[i].cartItem.item.unit + "，单价："
+            + receiptItem[i].cartItem.item.price.toFixed(2) + "(元)，小计："
+            + receiptItem[i].total.toFixed(2) + "(元)\n";
+    totalPrice += receiptItem[i].total;
+    totalSave  += receiptItem[i].save;
+	}
   receipt += "----------------------\n";
-  receipt += "总计："+totalprice.toFixed(2)+"(元)\n";
-  receipt += "节省："+totalsave.toFixed(2)+"(元)\n";
+  receipt += "总计：" + totalPrice.toFixed(2) + "(元)\n";
+  receipt += "节省：" + totalSave.toFixed(2) + "(元)\n";
   receipt += "**********************";
   console.log(receipt);
 }

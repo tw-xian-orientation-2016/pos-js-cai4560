@@ -89,32 +89,31 @@ describe('calculatePromotion', function() {
 });
 
 describe('getReceipt', function() {
-  var inputs = [{cartItem:{item: {barcode: 'ITEM000001',
-                                  name: '雪碧',
-                                  unit: '瓶',
-                                  price: 3.00},
-                          number:5},
-                 total:12.00,
-                 save:3.00},
-                {cartItem:{item: {barcode: 'ITEM000003',
-                                  name: '荔枝',
-                                  unit: '斤',
-                                  price: 15.00},
-                          number:2},
-                 total:30.00,
-                 save:0.00},
-                {cartItem:{item: {barcode: 'ITEM000005',
-                                  name: '方便面',
-                                  unit: '袋',
-                                  price: 4.50},
-                           number:3},
-                 total:9.00,
-                 save:4.50}];
+  var inputs = [{ cartItem: { item: { barcode: 'ITEM000001',
+                                      name: '雪碧',
+                                      unit: '瓶',
+                                      price: 3.00 },
+                              number:5},
+                  total: 12.00,
+                  save: 3.00 },
+                { cartItem: { item: { barcode: 'ITEM000003',
+                                      name: '荔枝',
+                                      unit: '斤',
+                                      price: 15.00 },
+                              number: 2 },
+                  total: 30.00,
+                  save:  0.00 },
+                { cartItem: { item: { barcode: 'ITEM000005',
+                                      name: '方便面',
+                                      unit: '袋',
+                                      price: 4.50},
+                              number: 3},
+                  total: 9.00,
+                  save: 4.50 }];
 
   it('Should return correct receipt', function() {
-
     spyOn(console, 'log');
-    getReceipt(inputs)
+    getReceipt(inputs);
     var expectResult =    '***<没钱赚商店>收据***\n' +
                           '名称：雪碧，数量：5瓶，单价：3.00(元)，小计：12.00(元)\n' +
                           '名称：荔枝，数量：2斤，单价：15.00(元)，小计：30.00(元)\n' +
