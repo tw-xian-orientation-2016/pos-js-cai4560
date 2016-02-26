@@ -31,27 +31,28 @@ function searchEnd(tags, start) {
   return end;
 }
 
-function marchBarcodeList(inputs) {
-  var result = [];
-  var item = loadAllItems();
-  for(var i=0; i<inputs.length; i++)
-    for(var j=0; j<item.length; j++)
-    {
-      if(inputs[i].barcode === item[j].barcode)
-        result.push(copyData(inputs[i],item[j]))
+/*     Task2     */
+function marchBarcodeList(barcodeList) {
+  var cartItem = [];
+  var items = loadAllItems();
+  for(var i = 0; i < barcodeList.length; i++)
+    for(var j = 0; j < items.length; j++) {
+      if(barcodeList[i].barcode === items[j].barcode)
+        cartItem.push(copyItemData(barcodeList[i],items[j]))
     }
-  return result;
+  return cartItem;
 }
 
-function copyData(barcodeinfo,iteminfo)
+function copyItemData(barcodeinfo, iteminfo)
 {
-  return {item:{barcode: iteminfo.barcode,
-                name: iteminfo.name,
-                unit: iteminfo.unit,
-                price: iteminfo.price},
-          number:barcodeinfo.number};
+  return { item: { barcode: iteminfo.barcode,
+                   name: iteminfo.name,
+                   unit: iteminfo.unit,
+                   price: iteminfo.price },
+           number: barcodeinfo.number };
 }
 
+/*     Task3     */
 function calculatePromotion(inputs) {
   var result = [];
   var promotions = loadPromotions();
