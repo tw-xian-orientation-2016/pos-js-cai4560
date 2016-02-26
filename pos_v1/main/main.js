@@ -59,8 +59,7 @@ function copyData(barcodeinfo,iteminfo)
   return {item:{barcode: iteminfo.barcode,
                 name: iteminfo.name,
                 unit: iteminfo.unit,
-                price: iteminfo.price
-              },
+                price: iteminfo.price},
           number:barcodeinfo.number};
 }
 
@@ -78,14 +77,18 @@ function calculatePromotion(inputs) {
           flag = 1;break;
         }
     if(!flag)
-      result.push({cartitem:inputs[i],total:inputs[i].item.price*inputs[i].number,save:0.00})
+      result.push({cartitem:inputs[i],
+                   total:inputs[i].item.price*inputs[i].number,
+                   save:0.00})
   }
   return result;
 }
 
 function calculateTotalPrice(input) {
   var promote = parseInt(input.number/3);
-  return {cartitem:input,total:input.item.price*(input.number-promote),save:input.item.price*promote};
+  return {cartitem:input,
+          total:input.item.price*(input.number-promote),
+          save:input.item.price*promote};
 }
 
 function getReceipt(inputs) {
@@ -93,11 +96,11 @@ function getReceipt(inputs) {
   var totalprice = 0, totalsave = 0;
   for(var i=0; i<inputs.length; i++)
   {
-    receipt += "名称："+inputs[i].cartitem.item.name
-            +"，数量："+inputs[i].cartitem.number
-            +inputs[i].cartitem.item.unit+"，单价："
-            +inputs[i].cartitem.item.price.toFixed(2)+"(元)，小计："
-            +inputs[i].total.toFixed(2)+"(元)\n";
+    receipt += "名称：" + inputs[i].cartitem.item.name
+            + "，数量：" + inputs[i].cartitem.number
+            + inputs[i].cartitem.item.unit + "，单价："
+            + inputs[i].cartitem.item.price.toFixed(2) + "(元)，小计："
+            + inputs[i].total.toFixed(2) + "(元)\n";
     totalprice += inputs[i].total;
     totalsave  += inputs[i].save;
   }
