@@ -5,32 +5,34 @@ function printReceipt(receiptItem) {
   var receiptItem = calculatePromotion(cartItem);
   console.log(getReceipt(receiptItem));
 }
-
 /*     Task1     */
 function loadAllBarcodes(tags) {
   var barcodeList = [];
   //tags.sort();
-  for(var start = 0; start < tags.length; ) {
-      var dividedBarcode = tags[start].split('-');
-			var barcode = dividedBarcode[0];
-			var end = searchEnd(tags, start);
-			var number = parseFloat(dividedBarcode[1] || end - start);
-			start = end ;
-			barcodeList.push({ barcode: barcode, number: number });
-    }
+  for(var i = 0; i < tags.length; i++) {
+	var barcodeCount = getBarcodeCount(tags[i]);
+	var barcodeRecord = searchRecord(barcodeCount, barcodeList);
+	if(barcodeRecord)
+		barcodeRecord.number += barcodeCount.number;
+	else
+		barcodeList.push(barcodeCount);
+  }
   return barcodeList;
 }
 
-function searchEnd(tags, start) {
-  for(var end = start; end < tags.length; end++) {
-    if(tags[end] === tags[start])
-      continue;
-    else
-      break;
-  }
-  return end;
+function getBarcodeCount(tag){
+  var dividedString= tag.split('-');
+  var barcode = dividedString[0];
+  var number = parseFloat(dividedString[1] || 1);
+  return { barcode: barcode, number: number };
 }
 
+function searchRecord(barcodeCount, barcodeList) {
+  for (var i = 0; i < barcodeList.length; i++) 
+    if (barcodeList[i].barcode === barcodeCount.barcode) 
+      return barcodeList[i];
+}
+	  
 /*     Task2     */
 function marchBarcodeList(barcodeList) {
   var cartItem = [];
@@ -51,7 +53,6 @@ function copyItemData(barcodeinfo, iteminfo)
                    price: iteminfo.price },
            number: barcodeinfo.number };
 }
-
 /*     Task3     */
 function calculatePromotion(cartItem) {
   var receiptItem = [];
@@ -66,12 +67,13 @@ function calculatePromotion(cartItem) {
 }
 
 function isPromote(cartItem, promotions) {
-	for(var i = 0; i < promotions.length; i++)
-		for(var j = 0; j < promotions[i].barcodes.length; j++)
-			if(cartItem.item.barcode === promotions[i].barcodes[j]) {
-				promoteNumber = parseInt(cartItem.number / 3);
-				return promoteNumber;
-			}
+  for(var i = 0; i < promotions.length; i++)
+    for(var j = 0; j < promotions[i].barcodes.length; j++) {
+	  if(cartItem.item.barcode === promotions[i].barcodes[j]) {
+	    promoteNumber = parseInt(cartItem.number / 3);
+	    return promoteNumber;
+		}
+	}
 }
 /*     Task4     */
 function getReceipt(receiptItem) {
