@@ -9,14 +9,16 @@ function printReceipt(receiptItem) {
 function loadAllBarcodes(tags) {
   var barcodeList = [];
   //tags.sort();
-  for(var i = 0; i < tags.length; i++) {
-		var barcodeCount = getBarcodeCount(tags[i]);
+	tags.forEach(function(tag) {
+		var barcodeCount = getBarcodeCount(tag);
 		var barcodeRecord = searchRecord(barcodeCount, barcodeList);
-		if(barcodeRecord)
+		if(barcodeRecord) {
 			barcodeRecord.number += barcodeCount.number;
-		else
+		}
+		else {
 			barcodeList.push(barcodeCount);
-  }
+		}
+  });
   return barcodeList;
 }
 
@@ -28,19 +30,22 @@ function getBarcodeCount(tag){
 }
 
 function searchRecord(barcodeCount, barcodeList) {
-  for (var i = 0; i < barcodeList.length; i++)
-    if (barcodeList[i].barcode === barcodeCount.barcode)
+  for (var i = 0; i < barcodeList.length; i++) {
+    if (barcodeList[i].barcode === barcodeCount.barcode) {
       return barcodeList[i];
+		}
+	}
 }
 
 /*     Task2     */
 function marchBarcodeList(barcodeList) {
   var cartItem = [];
   var items = loadAllItems();
-  for(var i = 0; i < barcodeList.length; i++)
-    for(var j = 0; j < items.length; j++) {
-      if(barcodeList[i].barcode === items[j].barcode)
+  for (var i = 0; i < barcodeList.length; i++)
+    for (var j = 0; j < items.length; j++) {
+      if(barcodeList[i].barcode === items[j].barcode) {
         cartItem.push({ item: items[j], number: barcodeList[i].number })
+			}
     }
   return cartItem;
 }
@@ -49,7 +54,7 @@ function marchBarcodeList(barcodeList) {
 function calculatePromotion(cartItem) {
   var receiptItem = [];
   var promotions = loadPromotions();
-  for(var i = 0; i < cartItem.length; i++) {
+  for (var i = 0; i < cartItem.length; i++) {
     var promoteNumber = isPromote(cartItem[i], promotions) || 0;
     receiptItem.push({ cartItem: cartItem[i],
                        total: cartItem[i].item.price * (cartItem[i].number - promoteNumber),
@@ -59,11 +64,12 @@ function calculatePromotion(cartItem) {
 }
 
 function isPromote(cartItem, promotions) {
-  for(var i = 0; i < promotions.length; i++)
-    for(var j = 0; j < promotions[i].barcodes.length; j++) {
-	  if(cartItem.item.barcode === promotions[i].barcodes[j]) {
-	    promoteNumber = parseInt(cartItem.number / 3);
-	    return promoteNumber;
+  for (var i = 0; i < promotions.length; i++)
+    for (var j = 0; j < promotions[i].barcodes.length; j++) {
+	  	if(cartItem.item.barcode === promotions[i].barcodes[j]) {
+			// it needs to be extended if there are more promote type.
+	    	promoteNumber = parseInt(cartItem.number / 3);
+	    	return promoteNumber;
 		}
 	}
 }
@@ -71,7 +77,7 @@ function isPromote(cartItem, promotions) {
 function getReceipt(receiptItem) {
   var receipt = "***<没钱赚商店>收据***\n";
   var totalPrice = 0, totalSave = 0;
-  for(var i = 0; i < receiptItem.length; i++){
+  for (var i = 0; i < receiptItem.length; i++){
     receipt += "名称：" + receiptItem[i].cartItem.item.name
             + "，数量：" + receiptItem[i].cartItem.number
             + receiptItem[i].cartItem.item.unit + "，单价："
