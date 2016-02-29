@@ -40,19 +40,11 @@ function marchBarcodeList(barcodeList) {
   for(var i = 0; i < barcodeList.length; i++)
     for(var j = 0; j < items.length; j++) {
       if(barcodeList[i].barcode === items[j].barcode)
-        cartItem.push(copyItemData(barcodeList[i],items[j]))
+        cartItem.push({ item: items[j], number: barcodeList[i].number })
     }
   return cartItem;
 }
 
-function copyItemData(barcodeinfo, iteminfo)
-{
-  return { item: { barcode: iteminfo.barcode,
-                   name: iteminfo.name,
-                   unit: iteminfo.unit,
-                   price: iteminfo.price },
-           number: barcodeinfo.number };
-}
 /*     Task3     */
 function calculatePromotion(cartItem) {
   var receiptItem = [];
