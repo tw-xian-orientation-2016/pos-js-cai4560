@@ -10,12 +10,12 @@ function loadAllBarcodes(tags) {
   var barcodeList = [];
   //tags.sort();
   for(var i = 0; i < tags.length; i++) {
-	var barcodeCount = getBarcodeCount(tags[i]);
-	var barcodeRecord = searchRecord(barcodeCount, barcodeList);
-	if(barcodeRecord)
-		barcodeRecord.number += barcodeCount.number;
-	else
-		barcodeList.push(barcodeCount);
+		var barcodeCount = getBarcodeCount(tags[i]);
+		var barcodeRecord = searchRecord(barcodeCount, barcodeList);
+		if(barcodeRecord)
+			barcodeRecord.number += barcodeCount.number;
+		else
+			barcodeList.push(barcodeCount);
   }
   return barcodeList;
 }
@@ -28,11 +28,11 @@ function getBarcodeCount(tag){
 }
 
 function searchRecord(barcodeCount, barcodeList) {
-  for (var i = 0; i < barcodeList.length; i++) 
-    if (barcodeList[i].barcode === barcodeCount.barcode) 
+  for (var i = 0; i < barcodeList.length; i++)
+    if (barcodeList[i].barcode === barcodeCount.barcode)
       return barcodeList[i];
 }
-	  
+
 /*     Task2     */
 function marchBarcodeList(barcodeList) {
   var cartItem = [];
